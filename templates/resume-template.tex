@@ -1,0 +1,77 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{fontawesome}
+
+% Custom colors
+\definecolor{primary}{RGB}{102, 126, 234}
+\definecolor{secondary}{RGB}{118, 75, 162}
+\definecolor{accent}{RGB}{255, 111, 177}
+
+% Section formatting
+\titleformat{\section}{\large\bfseries\color{primary}}{}{0em}{}[{\color{primary}\titlerule}]
+\titleformat{\subsection}{\normalsize\bfseries\color{secondary}}{}{0em}{}
+\titleformat{\subsubsection}{\small\bfseries\color{accent}}{}{0em}{}
+
+% Remove page numbers
+\pagestyle{empty}
+
+% Custom commands
+\newcommand{\resumeitem}[1]{\item\small{#1}}
+\newcommand{\resumesubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumesubitem}[1]{\resumeitem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\begin{document}
+
+% Header
+\begin{center}
+    {\huge\bfseries\color{primary} {{FULL_NAME}}} \\
+    \vspace{0.5em}
+    \faEnvelope\ {{EMAIL}} \quad
+    \faPhone\ {{PHONE}} \quad
+    \faLinkedin\ {{LINKEDIN}}
+\end{center}
+
+% Professional Summary
+\section{Professional Summary}
+{{SUMMARY}}
+
+% Skills
+\section{Technical Skills}
+\begin{itemize}[leftmargin=0.5in]
+    {{SKILLS}}
+\end{itemize}
+
+% Experience
+\section{Professional Experience}
+\begin{itemize}[leftmargin=0.5in]
+    {{EXPERIENCE}}
+\end{itemize}
+
+% Education
+\section{Education}
+\begin{itemize}[leftmargin=0.5in]
+    {{EDUCATION}}
+\end{itemize}
+
+% Projects (if any)
+{{PROJECTS}}
+
+% Certifications (if any)
+{{CERTIFICATIONS}}
+
+\end{document}
+

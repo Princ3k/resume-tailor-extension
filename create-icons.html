@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator</title>
+</head>
+<body>
+    <h1>Resume Tailor Icon Generator</h1>
+    <p>Right-click each canvas and "Save image as" to download the icons:</p>
+    
+    <div style="margin: 20px;">
+        <h3>16x16 Icon</h3>
+        <canvas id="canvas16" width="16" height="16" style="border: 1px solid #ccc; image-rendering: pixelated;"></canvas>
+        <button onclick="downloadIcon('canvas16', 'icon16.png')">Download</button>
+    </div>
+    
+    <div style="margin: 20px;">
+        <h3>32x32 Icon</h3>
+        <canvas id="canvas32" width="32" height="32" style="border: 1px solid #ccc; image-rendering: pixelated;"></canvas>
+        <button onclick="downloadIcon('canvas32', 'icon32.png')">Download</button>
+    </div>
+    
+    <div style="margin: 20px;">
+        <h3>48x48 Icon</h3>
+        <canvas id="canvas48" width="48" height="48" style="border: 1px solid #ccc; image-rendering: pixelated;"></canvas>
+        <button onclick="downloadIcon('canvas48', 'icon48.png')">Download</button>
+    </div>
+    
+    <div style="margin: 20px;">
+        <h3>128x128 Icon</h3>
+        <canvas id="canvas128" width="128" height="128" style="border: 1px solid #ccc; image-rendering: pixelated;"></canvas>
+        <button onclick="downloadIcon('canvas128', 'icon128.png')">Download</button>
+    </div>
+    
+    <script>
+        function generateIcon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            
+            // Draw background
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Add rounded corners effect
+            ctx.globalCompositeOperation = 'destination-in';
+            ctx.beginPath();
+            ctx.roundRect(0, 0, size, size, size * 0.125);
+            ctx.fill();
+            ctx.globalCompositeOperation = 'source-over';
+            
+            // Draw document icon
+            ctx.fillStyle = 'white';
+            const docSize = size * 0.6;
+            const docX = (size - docSize) / 2;
+            const docY = (size - docSize) / 2;
+            
+            // Document shape
+            ctx.beginPath();
+            ctx.moveTo(docX, docY);
+            ctx.lineTo(docX + docSize * 0.7, docY);
+            ctx.lineTo(docX + docSize, docY + docSize * 0.3);
+            ctx.lineTo(docX + docSize, docY + docSize);
+            ctx.lineTo(docX, docY + docSize);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Folded corner
+            ctx.fillStyle = '#f0f0f0';
+            ctx.beginPath();
+            ctx.moveTo(docX + docSize * 0.7, docY);
+            ctx.lineTo(docX + docSize, docY + docSize * 0.3);
+            ctx.lineTo(docX + docSize * 0.7, docY + docSize * 0.3);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Text lines
+            ctx.fillStyle = '#667eea';
+            const lineHeight = Math.max(1, size / 20);
+            const lineWidth = docSize * 0.6;
+            const startX = docX + docSize * 0.15;
+            const startY = docY + docSize * 0.5;
+            
+            for (let i = 0; i < 3; i++) {
+                ctx.fillRect(startX, startY + i * lineHeight * 1.5, lineWidth, lineHeight);
+            }
+        }
+        
+        function downloadIcon(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        // Generate all icons
+        generateIcon('canvas16', 16);
+        generateIcon('canvas32', 32);
+        generateIcon('canvas48', 48);
+        generateIcon('canvas128', 128);
+    </script>
+</body>
+</html>
+

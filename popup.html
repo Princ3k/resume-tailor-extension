@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Tailor</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Resume Tailor</h1>
+            <p class="subtitle">AI-Powered Resume Customization</p>
+        </header>
+
+        <div class="main-content">
+            <!-- AI Configuration Section -->
+            <section class="ai-section">
+                <h2>AI Configuration</h2>
+                <div class="ai-status" id="aiStatus">
+                    <span class="status-indicator" id="aiStatusIndicator"></span>
+                    <span id="aiStatusText">AI not configured</span>
+                </div>
+                <div class="button-group">
+                    <button id="configureAIBtn" class="btn btn-primary">Configure AI</button>
+                    <button id="testAIBtn" class="btn btn-secondary" disabled>Test AI</button>
+                </div>
+            </section>
+
+            <!-- Resume Management Section -->
+            <section class="resume-section">
+                <h2>Your Resume</h2>
+                <div class="resume-status" id="resumeStatus">
+                    <span class="status-indicator" id="statusIndicator"></span>
+                    <span id="statusText">No resume loaded</span>
+                </div>
+                <div class="button-group">
+                    <button id="uploadResumeBtn" class="btn btn-primary">Upload Resume</button>
+                    <button id="editResumeBtn" class="btn btn-secondary" disabled>Edit Resume</button>
+                    <button id="manualEntryBtn" class="btn btn-secondary">Manual Entry</button>
+                </div>
+                <div class="upload-info">
+                    <p>Supported formats: PDF, DOCX, TXT</p>
+                </div>
+            </section>
+
+            <!-- Job Analysis Section -->
+            <section class="job-section">
+                <h2>Current Job</h2>
+                <div class="job-info" id="jobInfo">
+                    <p class="no-job">Navigate to a job posting to analyze it</p>
+                </div>
+                <div class="button-group">
+                    <button id="analyzeJobBtn" class="btn btn-primary" disabled>Analyze Job</button>
+                    <button id="manualDetectBtn" class="btn btn-secondary">Manual Detect</button>
+                    <button id="refreshJobBtn" class="btn btn-secondary">Refresh</button>
+                </div>
+            </section>
+
+            <!-- Tailor Resume Section -->
+            <section class="tailor-section">
+                <h2>Tailor Resume</h2>
+                <div class="tailor-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="includeKeywords" checked>
+                        <span class="checkmark"></span>
+                        Include job keywords
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="highlightSkills" checked>
+                        <span class="checkmark"></span>
+                        Highlight relevant skills
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="adjustExperience" checked>
+                        <span class="checkmark"></span>
+                        Adjust experience descriptions
+                    </label>
+                </div>
+                <button id="tailorResumeBtn" class="btn btn-success" disabled>Generate Tailored Resume</button>
+            </section>
+
+            <!-- Download Section -->
+            <section class="download-section">
+                <h2>Download</h2>
+                <div class="download-options">
+                    <button id="downloadPdfBtn" class="btn btn-download" disabled>
+                        <span class="download-icon">📄</span>
+                        Download PDF
+                    </button>
+                    <button id="previewBtn" class="btn btn-secondary" disabled>Preview</button>
+                </div>
+            </section>
+        </div>
+
+        <!-- AI Configuration Modal -->
+        <div id="aiModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Configure AI</h3>
+                    <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="ai-info">
+                        <p>To use AI-powered resume tailoring, you need an OpenAI API key. This allows the extension to:</p>
+                        <ul>
+                            <li>Analyze job descriptions intelligently</li>
+                            <li>Research company culture and values</li>
+                            <li>Add relevant metrics and achievements</li>
+                            <li>Emphasize your strengths for each role</li>
+                            <li>Match soft skills to company culture</li>
+                        </ul>
+                    </div>
+                    <form id="aiForm">
+                        <div class="form-group">
+                            <label for="openaiKey">OpenAI API Key</label>
+                            <input type="password" id="openaiKey" placeholder="sk-..." required>
+                            <small>Your API key is stored locally and never shared</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="aiModel">AI Model</label>
+                            <select id="aiModel">
+                                <option value="gpt-4">GPT-4 (Recommended)</option>
+                                <option value="gpt-3.5-turbo">GPT-3.5 Turbo (Faster, Cheaper)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="aiTemperature">Creativity Level</label>
+                            <input type="range" id="aiTemperature" min="0" max="1" step="0.1" value="0.7">
+                            <span id="temperatureValue">0.7</span>
+                            <small>Higher values = more creative, Lower values = more focused</small>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="saveAIBtn" class="btn btn-primary">Save Configuration</button>
+                    <button id="cancelAIBtn" class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resume Upload Modal -->
+        <div id="uploadModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Upload Resume</h3>
+                    <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📄</div>
+                        <h4>Drag & Drop your resume here</h4>
+                        <p>or</p>
+                        <button id="selectFileBtn" class="btn btn-primary">Choose File</button>
+                        <input type="file" id="fileInput" accept=".pdf,.docx,.doc,.txt" style="display: none;">
+                        <div class="supported-formats">
+                            <p>Supported formats: PDF, DOCX, DOC, TXT</p>
+                            <button id="testUploadBtn" class="btn btn-secondary" style="margin-top: 10px;">Test with Sample Resume</button>
+                        </div>
+                    </div>
+                    <div class="upload-progress" id="uploadProgress" style="display: none;">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <p id="progressText">Processing resume...</p>
+                    </div>
+                    <div class="upload-result" id="uploadResult" style="display: none;">
+                        <h4>Resume Parsed Successfully!</h4>
+                        <div class="parsed-content" id="parsedContent"></div>
+                        <div class="parsed-actions">
+                            <button id="saveParsedResumeBtn" class="btn btn-primary">Save Resume</button>
+                            <button id="editParsedResumeBtn" class="btn btn-secondary">Edit Before Saving</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resume Editor Modal -->
+        <div id="resumeModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Edit Resume</h3>
+                    <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <form id="resumeForm">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="linkedin">LinkedIn URL</label>
+                            <input type="url" id="linkedin">
+                        </div>
+                        <div class="form-group">
+                            <label for="summary">Professional Summary</label>
+                            <textarea id="summary" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="skills">Skills (comma-separated)</label>
+                            <textarea id="skills" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="experience">Work Experience (JSON format)</label>
+                            <textarea id="experience" rows="6" placeholder='[{"title": "Job Title", "company": "Company", "duration": "2020-2023", "description": "Job description"}]'></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="education">Education (JSON format)</label>
+                            <textarea id="education" rows="4" placeholder='[{"degree": "Bachelor of Science", "school": "University", "year": "2020"}]'></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="saveResumeBtn" class="btn btn-primary">Save Resume</button>
+                    <button id="cancelResumeBtn" class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview Modal -->
+        <div id="previewModal" class="modal">
+            <div class="modal-content large">
+                <div class="modal-header">
+                    <h3>Resume Preview</h3>
+                    <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <iframe id="previewFrame" src="about:blank"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="lib/pdf-parser.js"></script>
+    <script src="lib/text-extractor.js"></script>
+    <script src="resume-parser.js"></script>
+    <script src="debug.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>

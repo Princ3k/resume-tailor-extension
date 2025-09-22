@@ -1,0 +1,33 @@
+{
+  "name": "resume-tailor-extension",
+  "version": "1.0.0",
+  "description": "A browser extension that automatically tailors your resume for job applications using AI-powered analysis",
+  "main": "background.js",
+  "scripts": {
+    "build": "echo 'No build process required for this extension'",
+    "test": "echo 'No tests specified'",
+    "lint": "echo 'No linting configured'"
+  },
+  "keywords": [
+    "browser-extension",
+    "resume",
+    "job-application",
+    "ai",
+    "latex",
+    "pdf",
+    "chrome-extension",
+    "safari-extension"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/resume-tailor-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/resume-tailor-extension/issues"
+  },
+  "homepage": "https://github.com/yourusername/resume-tailor-extension#readme",
+  "devDependencies": {},
+  "dependencies": {}
+}

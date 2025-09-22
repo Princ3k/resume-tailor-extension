@@ -1,0 +1,109 @@
+/* Content script styles for Resume Tailor extension */
+
+#resume-tailor-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 140px;
+    justify-content: center;
+}
+
+#resume-tailor-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+#resume-tailor-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+}
+
+.tailor-button-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tailor-icon {
+    font-size: 16px;
+    line-height: 1;
+}
+
+.tailor-text {
+    white-space: nowrap;
+}
+
+/* Animation for button appearance */
+#resume-tailor-button {
+    animation: slideInFromRight 0.5s ease-out;
+}
+
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #resume-tailor-button {
+        top: 10px;
+        right: 10px;
+        padding: 10px 12px;
+        font-size: 12px;
+        min-width: 120px;
+    }
+    
+    .tailor-text {
+        display: none;
+    }
+    
+    .tailor-icon {
+        font-size: 18px;
+    }
+}
+
+/* Ensure button doesn't interfere with page content */
+#resume-tailor-button * {
+    pointer-events: none;
+}
+
+#resume-tailor-button {
+    pointer-events: auto;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    #resume-tailor-button {
+        background: linear-gradient(135deg, #4a5bb8 0%, #5a3190 100%);
+        box-shadow: 0 4px 12px rgba(74, 91, 184, 0.4);
+    }
+    
+    #resume-tailor-button:hover {
+        background: linear-gradient(135deg, #3a4ba8 0%, #4a2180 100%);
+        box-shadow: 0 6px 20px rgba(74, 91, 184, 0.6);
+    }
+}
+
